@@ -30,12 +30,17 @@ class Sale {
             return false;
         }
 
-        foreach ($cart as $item) {
+        foreach ($cart as $id => $item) {
             $subtotal = $item['price'] * $item['quantity'];
             $result = $this->db->query(
                 'INSERT INTO sales_items (sale_id, product_id, quantity, price, subtotal)
                 VALUES (?, ?, ?, ?, ?)',
                 [$saleId, $item['id'], $item['quantity'], $item['price'], $subtotal]
+            );
+
+            $this->db->query(
+                'UPDATE products SET stock = stock - ? WHERE id = ?',
+                [$item['quantity'], $id]
             );
         }
 

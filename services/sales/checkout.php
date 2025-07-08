@@ -17,7 +17,7 @@ foreach ($cart as $item) {
     $total += $item['price'] * $item['quantity'];
 }
 
-$amountPaid = $_POST['amount'] ?? 0;
+$amountPaid = floatval($_POST['amount'] ?? 0);
 $paymentMethod = $_POST['payment_method'] ?? 'cash';
 $change = $amountPaid - $total;
 

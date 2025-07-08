@@ -23,6 +23,15 @@ if (!$product) {
 }
 
 $cart = $session->get('cart', []);
+$currentQuantityInCart = isset($cart[$productId]) ? $cart[$productId]['quantity'] : 0;
+$totalQuantity = $currentQuantityInCart + $quantity;
+
+if ($totalQuantity > $product['stock']) {
+    $session->flash('error', 'Not enough stock available. Only' . ' ' . $product['stock'] . ' ' . 'units in stock');
+    header('Location: ' . BASE_URL . '/sales');
+    exit;
+}
+
 if (isset($cart[$productId])) {
     $cart[$productId]['quantity'] += $quantity;
 } else {
