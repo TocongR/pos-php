@@ -9,6 +9,38 @@ class Sale {
         $this->db = $db;
     }
 
+    public function all(): array
+    {
+        return $this->db->query(
+            'SELECT s.*, u.username as cashier_name
+            FROM sales s
+            JOIN users u ON s.user_id = u.id
+            ORDER BY created_at DESC'
+        )->fetchAll();
+    }
+
+    public function find(int $id): array
+    {
+        return $this->db->query(
+            'SELECT s.*, u.username as cashier_name
+            FROM sales s
+            JOIN users u ON s.user_id = u.id
+            WHERE s.id = ?',
+            [$id]
+        )->fetch();
+    }
+
+    public function getItems(int $id): array
+    {
+        return $this->db->query(
+            'SELECT si.*, p.name, p.category_id
+            FROM sales_items si
+            JOIN products p ON si.product_id = p.id
+            WHERE si.sale_id = ?',
+            [$id]
+        )->fetchAll();
+    }
+
     public function create(array $data): int|false
     {
         $stmt = $this->db->query(
