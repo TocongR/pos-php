@@ -18,8 +18,6 @@ if (!$data) {
     echo 'Category not found.';
     exit;
 }
-
-$categories = $category->all();
 ?>
 <body>
     <h2>Edit Product</h2>

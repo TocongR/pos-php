@@ -21,7 +21,9 @@ $routes = [
         'categories' => '../pages/categories/index.php',
         'categories/create' => '../pages/categories/create.php',
         'categories/edit' => '../pages/categories/edit.php',
-        'sales' => '../pages/sales/index.php'
+        'sales' => '../pages/sales/index.php',
+        'orders' => '../pages/orders/index.php',
+        'orders/view' => '../pages/orders/view.php'
     ],
     'POST' => [
         'login' => '../services/login.php',
@@ -55,6 +57,8 @@ $accessControl = [
             'categories/create' => ['admin', 'manager'],
             'categories/edit' => ['admin', 'manager'],
             'sales'  => ['admin', 'manager', 'cashier'],
+            'orders'  => ['admin', 'manager', 'cashier'],
+            'orders/view'  => ['admin', 'manager', 'cashier'],
         ],
         'POST' => [
             'products/create' => ['admin', 'manager'],
