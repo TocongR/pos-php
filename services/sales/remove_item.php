@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../includes/bootstrap.php';
 
 $productId = $_POST['product_id'] ?? null;
+$removeQty = intval($_POST['remove_qty'] ?? 1);
 $cart = $session->get('cart', []);
 
 if (!$productId || !isset($cart[$productId])) {
@@ -10,9 +11,13 @@ if (!$productId || !isset($cart[$productId])) {
     exit;
 }
 
-unset($cart[$productId]);
-$session->set('cart', $cart);
-$session->flash('success', 'Item removed.');
+if ($removeQty >= $cart[$productId]['quantity']) {
+    unset($cart[$productId]);
+} else {
+    $cart[$productId]['quantity'] -= $removeQty;
+}
 
+$session->set('cart', $cart);
+$session->flash('error', 'Item removed.');
 header('Location: ' . BASE_URL . '/sales');
 exit;

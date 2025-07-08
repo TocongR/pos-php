@@ -86,6 +86,7 @@ $total = 0;
                     <td>
                         <form method="POST" action="<?= BASE_URL ?>/sales/remove-item">
                             <input type="hidden" name="product_id" value="<?= $id ?>">
+                            <input type="number" name="remove_qty" value="1" min="1" max="<?= $item['quantity'] ?>">
                             <button type="submit">Remove</button>
                         </form>
                     </td>
