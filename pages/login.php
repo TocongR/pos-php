@@ -15,4 +15,4 @@ if ($auth->isLoggedIn()) {
     <input type="password" name="password" placeholder="Password" required><br>
     <button type="submit">Sign In</button>
 </form>
-<a href="<?= BASE_URL ?>/register">Register</a>
+<!-- <a href="<?= BASE_URL ?>/register">Register</a> -->

@@ -22,8 +22,12 @@ $routes = [
         'categories/create' => '../pages/categories/create.php',
         'categories/edit' => '../pages/categories/edit.php',
         'sales' => '../pages/sales/index.php',
+        'sales/cart-partial' => '../services/sales/cart-partial.php',
         'orders' => '../pages/orders/index.php',
-        'orders/view' => '../pages/orders/view.php'
+        'orders/view' => '../pages/orders/view.php',
+        'users' => '../pages/users/index.php',   
+        'users/create' => '../pages/users/create.php',
+        'users/edit' => '../pages/users/edit.php'
     ],
     'POST' => [
         'login' => '../services/login.php',
@@ -36,7 +40,10 @@ $routes = [
         'categories/delete' => '../services/categories/delete.php',
         'sales/add-item' => '../services/sales/add_item.php',
         'sales/remove-item' => '../services/sales/remove_item.php',
-        'sales/checkout' => '../services/sales/checkout.php'
+        'sales/checkout' => '../services/sales/checkout.php',
+        'users/create' => '../services/users/create.php',
+        'users/edit' => '../services/users/edit.php',
+        'users/delete' => '../services/users/delete.php'
     ]
 ];
 
@@ -56,9 +63,13 @@ $accessControl = [
             'categories' => ['admin', 'manager'],
             'categories/create' => ['admin', 'manager'],
             'categories/edit' => ['admin', 'manager'],
+            'sales/cart-partial'  => ['admin', 'manager', 'cashier'],
             'sales'  => ['admin', 'manager', 'cashier'],
             'orders'  => ['admin', 'manager', 'cashier'],
             'orders/view'  => ['admin', 'manager', 'cashier'],
+            'users'  => ['admin'],            
+            'users/create'  => ['admin'],
+            'users/edit'  => ['admin'],
         ],
         'POST' => [
             'products/create' => ['admin', 'manager'],
@@ -69,7 +80,10 @@ $accessControl = [
             'categories/delete' => ['admin', 'manager'],
             'sales/add-item' => ['admin', 'manager', 'cashier'],
             'sales/remove-item' => ['admin', 'manager', 'cashier'],
-            'sales/checkout' => ['admin', 'manager', 'cashier']
+            'sales/checkout' => ['admin', 'manager', 'cashier'],
+            'users/create'  => ['admin'],
+            'users/edit'  => ['admin'],
+            'users/delete'  => ['admin'],
         ]
     ]
 ];

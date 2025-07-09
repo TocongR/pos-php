@@ -6,8 +6,8 @@ $removeQty = intval($_POST['remove_qty'] ?? 1);
 $cart = $session->get('cart', []);
 
 if (!$productId || !isset($cart[$productId])) {
-    $session->flash('error', 'Cannot find product.');
-    header('Location: ' . BASE_URL . '/sales');
+    http_response_code(404);
+    echo json_encode(['error' => 'Product not found.']);
     exit;
 }
 
@@ -18,6 +18,5 @@ if ($removeQty >= $cart[$productId]['quantity']) {
 }
 
 $session->set('cart', $cart);
-$session->flash('error', 'Item removed.');
-header('Location: ' . BASE_URL . '/sales');
+echo json_encode(['success' => 'Item removed']);
 exit;

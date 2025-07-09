@@ -65,7 +65,7 @@ if ($search !== '') {
             <td><?= $product['stock'] ?></td>
             <td><?= htmlspecialchars($product['category_name']) ?></td>
             <td>
-                <a href="products/edit?id=<?= $product['id'] ?>">Edit</a> |
+                <a href="<?= BASE_URL ?>/products/edit?id=<?= $product['id'] ?>">Edit</a> |
                 <form action="<?= BASE_URL ?>/products/delete" method="POST" onsubmit="return confirm('Are you sure?');" style="display: inline;">
                     <input type="hidden" name="id" value="<?= $product['id'] ?>">
                     <button type="submit">Delete</button>

@@ -11,24 +11,24 @@ class Auth {
         $this->session = $session;
     }
 
-    public function register(string $username, string $password, string $role = 'user'): bool
-    {
-        $hashedPass = password_hash($password, PASSWORD_DEFAULT);
+    // public function register(string $username, string $password, string $role = 'user'): bool
+    // {
+    //     $hashedPass = password_hash($password, PASSWORD_DEFAULT);
 
-        $existUsername = $this->db->query(
-            'SELECT id FROM users WHERE username = ?', 
-            [$username]
-        )->fetch();
+    //     $existUsername = $this->db->query(
+    //         'SELECT id FROM users WHERE username = ?', 
+    //         [$username]
+    //     )->fetch();
 
-        if ($existUsername) {
-            return false;
-        }
+    //     if ($existUsername) {
+    //         return false;
+    //     }
 
-        return $this->db->query(
-            'INSERT INTO users (username, password, role) VALUES (?, ?, ?)', 
-            [$username, $hashedPass]
-        )->rowCount() > 0;
-    }
+    //     return $this->db->query(
+    //         'INSERT INTO users (username, password, role) VALUES (?, ?, ?)', 
+    //         [$username, $hashedPass]
+    //     )->rowCount() > 0;
+    // }
 
     public function login(string $username, string $password): bool
     {

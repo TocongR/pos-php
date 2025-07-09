@@ -35,7 +35,7 @@ $categories = $category->all();
 
     <form method="POST" action="<?= BASE_URL ?>/products/edit" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?= $data['id'] ?>">
-        
+
         <input type="text" name="name" value="<?= htmlspecialchars($data['name']) ?>" required><br>
         <textarea name="description"><?= htmlspecialchars($data['description']) ?></textarea><br>
         <input type="number" name="price" value="<?= $data['price'] ?>" step="0.01" required><br>

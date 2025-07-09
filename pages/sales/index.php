@@ -6,9 +6,6 @@ use Classes\Product;
 $product = new Product($db);
 
 $products = $product->all();
-
-$cart = $session->get('cart', []);
-$total = 0;
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +31,7 @@ $total = 0;
     <hr>
 
     <h3>Add Product</h3>
-    <form action="<?= BASE_URL ?>/sales/add-item" method="POST">
+    <form class="addProductForm">
         <label for="product">Product:</label>
         <select id="product" name="product_id">
             <?php foreach ($products as $product): ?>
@@ -53,50 +50,10 @@ $total = 0;
 
     <hr>
 
-    <h3>Cart</h3>
-    <table border="1" cellpadding="5" cellspacing="0">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Category</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Subtotal</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($cart as $id => $item): ?>
-                <?php $subtotal = $item['quantity'] * $item['price']; ?>
-                <?php $total += $subtotal; ?>
-                <tr>
-                    <td>
-                        <?php if ($item['image']): ?>
-                            <img src="/inv_sys_php_oop/storage/<?= htmlspecialchars($item['image']) ?>" width="100" height="100"><br>
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                    <td><?= htmlspecialchars($item['category']) ?></td>
-                    <td><?= htmlspecialchars($item['name']) ?></td>
-                    <td><?= $item['quantity'] ?></td>
-                    <td><?= number_format($item['price'], 2) ?></td>
-                    <td><?= number_format($subtotal, 2) ?></td>
-                    <td>
-                        <form method="POST" action="<?= BASE_URL ?>/sales/remove-item">
-                            <input type="hidden" name="product_id" value="<?= $id ?>">
-                            <input type="number" name="remove_qty" value="1" min="1" max="<?= $item['quantity'] ?>">
-                            <button type="submit">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-
-    <h3>Total: ₱<?= number_format($total, 2) ?></h3>
-
+    <div id="cartContainer">
+        <?php include __DIR__ . '/../../services/sales/cart-partial.php'; ?>
+    </div>
+    
     <form action="<?= BASE_URL ?>/sales/checkout" method="POST">
         <label for="payment">Payment Type:</label>
         <select name="payment_method" id="payment">
@@ -111,4 +68,72 @@ $total = 0;
     </form>
 
 </body>
+<script>
+document.addEventListener('submit', async (e) => {
+    if (e.target.matches('.addProductForm')) {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/inv_sys_php_oop/public/sales/add-item', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                updateCartUI();
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('AJAX error:', error);
+            alert('Something went wrong.');
+        }
+    }
+    
+});
+
+document.addEventListener('submit', async (e) => {
+    if (e.target.matches('.removeProductForm')) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/inv_sys_php_oop/public/sales/remove-item', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                updateCartUI();
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('AJAX error:', error);
+            alert('Something went wrong.');
+        }
+    }
+});
+
+async function updateCartUI() {
+    try {
+        const response = await fetch('/inv_sys_php_oop/public/sales/cart-partial');
+        const html = await response.text();
+        document.getElementById('cartContainer').innerHTML = html;
+    } catch (error) {
+        console.error('Failed to update Cart UI: ', error);
+        alert('Failed to update cart. Please refresh manually');
+    }
+}
+
+</script>
 </html>

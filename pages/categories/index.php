@@ -25,7 +25,7 @@ if ($search !== '') {
 
 <form method="GET" class="mb-4">
     <input type="text" name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
-        placeholder="Search categories...">
+        placeholder="Search category...">
     <button type="submit">Search</button>
     <?php if (!empty($_GET['search'])): ?>
         <a href="<?= BASE_URL ?>/categories">Reset</a>
@@ -49,7 +49,7 @@ if ($search !== '') {
             <td><?= $category['id'] ?></td>
             <td><?= htmlspecialchars($category['name']) ?></td>
             <td>
-                <a href="categories/edit?id=<?= $category['id'] ?>">Edit</a> |
+                <a href="<?= BASE_URL ?>/categories/edit?id=<?= $category['id'] ?>">Edit</a> |
                 <form action="<?= BASE_URL ?>/categories/delete" method="POST" onsubmit="return confirm('Are you sure?');" style="display: inline;">
                     <input type="hidden" name="id" value="<?= $category['id'] ?>">
                     <button type="submit">Delete</button>
